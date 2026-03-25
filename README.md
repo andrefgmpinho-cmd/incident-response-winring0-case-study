@@ -181,6 +181,20 @@ Autoruns revealed a WinRing0-related driver entry associated with a temporary us
 
 ---
 
+### ProcMon – Suspicious Process Activity
+![ProcMon Activity](images/procmon-pcmeter-temp-activity.png)
+
+Process Monitor analysis revealed that `PCMeterV0.4.exe` was actively interacting with the user's `%Temp%` directory, creating and modifying temporary files.
+
+---
+
+### ProcMon – File Creation Evidence
+![ProcMon File Creation](images/procmon-pcmeter-file-creation.png)
+
+The captured events show repeated file creation and access patterns associated with the executable, correlating with the artifacts detected and removed by Microsoft Defender.
+
+---
+
 ## 🧠 Lessons Learned
 
 - Legacy utilities can introduce unsafe low-level components that become attack vectors
