@@ -149,3 +149,4 @@ The application used a vulnerable driver (similar to WinRing0), allowing executi
 ![WinRing0](images/autoruns-winring0.png)
 
 This screenshot shows a suspicious WinRing0-related driver loaded from a temporary user directory, indicating possible abuse of a vulnerable driver for malicious purposes.
+
