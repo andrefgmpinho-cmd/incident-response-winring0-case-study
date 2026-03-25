@@ -99,16 +99,36 @@ This approach allowed precise identification of the infection source instead of 
 
 ---
 
-## 💣 Root Cause
-The application used a vulnerable driver (similar to WinRing0), allowing execution of malicious payloads in temporary directories.
+## 🔍 Root Cause Analysis
+
+The investigation identified the source of the persistent detections as a legacy hardware monitoring tool (PCMeter).
+
+Using ProcMon, it was observed that:
+- `PCMeterV0.4.exe` was actively creating temporary files in the user's `%Temp%` directory
+- These files matched the ones detected and removed by Microsoft Defender
+
+Further validation revealed:
+- The main executable appeared clean
+- However, an associated DLL was flagged as a vulnerable driver (WinRing0)
+
+This confirmed that:
+- The application included an unsafe low-level driver component
+- The driver was either abused or flagged due to known vulnerabilities (WinRing0)
 
 ---
 
-## 🔗 Persistence Mechanisms
+## 🔁 Persistence Mechanisms
+
+The persistence of the behavior was linked to:
+
 - Scheduled Tasks (`PCMeter`)
-- Program Files installation directory
-- WMI/WBEM components
-- Temporary payload execution
+- Startup entries associated with the application
+- Installation directory:
+  - `C:\Program Files (x86)\PCMeterV4`
+- Recurrent creation of temporary payloads in:
+  - `%LocalAppData%\Temp`
+
+Once these persistence mechanisms and associated components were removed, the system no longer exhibited malicious behavior.
 
 ---
 
@@ -158,30 +178,6 @@ The application used a vulnerable driver (similar to WinRing0), allowing executi
 ![WinRing0](images/autoruns-winring0.png)
 
 Autoruns revealed a WinRing0-related driver entry associated with a temporary user-space path. This was a strong indicator of vulnerable driver abuse and helped connect the observed Defender detections with the persistence mechanism under investigation.
-
----
-
-## 🔍 Root Cause Analysis
-
-The investigation revealed that the source of the infection was a legacy hardware monitoring tool (PCMeter).
-
-Using ProcMon, it was observed that:
-- `PCMeterV0.4.exe` was actively creating temporary files in the user Temp directory
-- These files matched the ones detected and removed by Microsoft Defender
-
-Further analysis showed:
-- The executable itself appeared clean
-- However, an associated DLL was flagged as a vulnerable driver (WinRing0)
-
-This confirmed that:
-- The software included an unsafe driver component
-- This component was being abused or flagged due to known vulnerabilities
-
-The persistence mechanism was linked to:
-- Scheduled tasks
-- Startup entries
-
-Once these were removed, the issue was fully resolved.
 
 ---
 
