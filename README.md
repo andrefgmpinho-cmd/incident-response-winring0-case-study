@@ -9,6 +9,8 @@
 
 ## 🎯 Executive Summary
 
+The root cause was traced to a vulnerable driver (WinRing0) embedded in a legacy hardware monitoring tool.
+
 This case study documents a real-world incident involving persistent malware execution on a Windows system.
 
 The system showed repeated antivirus detections (WinRing0-related), but the threat persisted across reboots. Through behavioral analysis using Sysinternals tools, the root cause was identified as a legitimate application leveraging a vulnerable driver.
@@ -156,6 +158,30 @@ The application used a vulnerable driver (similar to WinRing0), allowing executi
 ![WinRing0](images/autoruns-winring0.png)
 
 Autoruns revealed a WinRing0-related driver entry associated with a temporary user-space path. This was a strong indicator of vulnerable driver abuse and helped connect the observed Defender detections with the persistence mechanism under investigation.
+
+---
+
+## 🔍 Root Cause Analysis
+
+The investigation revealed that the source of the infection was a legacy hardware monitoring tool (PCMeter).
+
+Using ProcMon, it was observed that:
+- `PCMeterV0.4.exe` was actively creating temporary files in the user Temp directory
+- These files matched the ones detected and removed by Microsoft Defender
+
+Further analysis showed:
+- The executable itself appeared clean
+- However, an associated DLL was flagged as a vulnerable driver (WinRing0)
+
+This confirmed that:
+- The software included an unsafe driver component
+- This component was being abused or flagged due to known vulnerabilities
+
+The persistence mechanism was linked to:
+- Scheduled tasks
+- Startup entries
+
+Once these were removed, the issue was fully resolved.
 
 ---
 
