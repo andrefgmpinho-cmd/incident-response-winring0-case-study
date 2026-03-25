@@ -1,5 +1,12 @@
 # 🛡️ Incident Response Case Study – WinRing0 Abuse
 
+## 📌 Case Metadata
+- **Status:** Resolved
+- **Environment:** Windows
+- **Focus:** Incident Response / Malware Analysis / Persistence
+
+---
+
 ## 🎯 Executive Summary
 
 This case study documents a real-world incident involving persistent malware execution on a Windows system.
@@ -68,8 +75,8 @@ Tool:
 Results:
 - Main executable → clean
 - Associated DLL → flagged as:
-- Vulnerable Driver
-- HackTool
+  - Vulnerable Driver
+  - HackTool
 
 Conclusion:
 A legitimate tool using an unsafe driver was leveraged as an attack vector.
@@ -148,5 +155,12 @@ The application used a vulnerable driver (similar to WinRing0), allowing executi
 ### WinRing0 Driver Presence
 ![WinRing0](images/autoruns-winring0.png)
 
-This screenshot shows a suspicious WinRing0-related driver loaded from a temporary user directory, indicating possible abuse of a vulnerable driver for malicious purposes.
+Autoruns revealed a WinRing0-related driver entry associated with a temporary user-space path. This was a strong indicator of vulnerable driver abuse and helped connect the observed Defender detections with the persistence mechanism under investigation.
 
+---
+
+## 🧠 Lessons Learned
+
+- Legacy utilities can introduce unsafe low-level components that become attack vectors
+- Antivirus solutions may remove payloads without eliminating persistence mechanisms
+- Process tracing was essential to identify the true parent process behind the infection
