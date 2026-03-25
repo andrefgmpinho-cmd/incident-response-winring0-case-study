@@ -1,5 +1,24 @@
 # 🛡️ Incident Response Case Study – WinRing0 Abuse
 
+## 🎯 Executive Summary
+
+This case study documents a real-world incident involving persistent malware execution on a Windows system.
+
+The system showed repeated antivirus detections (WinRing0-related), but the threat persisted across reboots. Through behavioral analysis using Sysinternals tools, the root cause was identified as a legitimate application leveraging a vulnerable driver.
+
+The infection was successfully removed without requiring OS reinstallation by identifying and eliminating persistence mechanisms.
+
+---
+
+## 🧠 Key Skills Demonstrated
+- Malware analysis (userland + driver abuse)
+- Incident response and root cause identification
+- Use of Sysinternals tools (ProcMon, Autoruns)
+- Persistence analysis (Scheduled Tasks, WMI)
+- Practical troubleshooting in a real-world environment
+
+---
+
 ## 📌 Overview
 This repository documents a real-world malware investigation involving persistent payload execution via a vulnerable driver (WinRing0) on a Windows system.
 
@@ -54,6 +73,20 @@ Results:
 
 Conclusion:
 A legitimate tool using an unsafe driver was leveraged as an attack vector.
+
+---
+
+## 🧠 Investigation Approach
+
+The investigation followed a behavioral analysis methodology:
+
+1. Identify symptoms (temporary payloads, AV detections)
+2. Determine persistence mechanism
+3. Trace parent process responsible for file creation
+4. Validate binaries using external intelligence (VirusTotal)
+5. Remove root cause rather than symptoms
+
+This approach allowed precise identification of the infection source instead of relying on antivirus remediation alone.
 
 ---
 
