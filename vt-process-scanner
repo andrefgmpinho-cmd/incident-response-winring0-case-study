@@ -1,0 +1,145 @@
+# 🛡️ VT Process Scanner
+
+## 📌 Overview
+
+VT Process Scanner is a lightweight Windows process threat triage tool built in Python.
+
+It enumerates running processes, detects suspicious behavior (such as spoofed system binaries), and integrates with VirusTotal to provide reputation-based analysis.
+
+This tool is designed to assist in **rapid incident triage and process validation**.
+
+---
+
+## 🎯 Key Capabilities
+
+* Detect spoofed system processes (e.g., fake `svchost.exe`)
+* Identify unknown or suspicious executables
+* Query VirusTotal for threat intelligence
+* Support analyst-driven false positive handling
+* Maintain a persistent whitelist to reduce noise
+
+---
+
+## ⚙️ Features
+
+* 🔍 Real-time process scanning using `psutil`
+* 🔑 VirusTotal integration (`vt-py`)
+* 📝 Whitelist system (`whitelist.json`)
+* 🎨 Color-coded CLI output:
+
+  * Green → safe
+  * Yellow → unknown
+  * Red → malicious
+* 📊 CSV report generation (timestamped)
+* ⚡ Interactive CLI menu:
+
+  * Run scan
+  * Manage whitelist
+  * Exit
+* 🔐 Secure API key handling (`apikey.json`)
+
+---
+
+## 🧰 Technologies Used
+
+* Python
+* psutil
+* VirusTotal API (`vt-py`)
+* colorama
+
+---
+
+## 🔍 How It Works
+
+1. Enumerates active Windows processes
+2. Identifies known system binaries
+3. Detects anomalies (e.g., incorrect paths → spoofing)
+4. Queries VirusTotal for unknown executables
+5. Classifies results:
+
+   * trusted
+   * suspicious
+   * malicious
+6. Stores results in CSV reports
+7. Allows analyst to whitelist trusted processes
+
+---
+
+## 📊 Example Output
+
+```
+[OK] System process: services.exe (PID 672)
+[OK] Known third-party app: chrome.exe (PID 2140)
+[!!!] SPOOFED SYSTEM PROCESS: svchost.exe (PID 3024) Path: C:\Users\...\svchost.exe
+[!!!] MALICIOUS: badprocess.exe (PID 5001) according to VirusTotal
+```
+
+---
+
+## 📂 Project Structure
+
+```
+vt-process-scanner/
+├── scanner.py
+├── requirements.txt
+├── whitelist.json
+├── apikey.json
+├── reports/
+```
+
+---
+
+## 🚀 Installation
+
+```
+git clone https://github.com/YOUR_USERNAME/vt-process-scanner.git
+cd vt-process-scanner
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+---
+
+## ▶️ Usage
+
+```
+python scanner.py
+```
+
+On first run, insert your VirusTotal API key.
+
+---
+
+## 📸 Screenshots
+
+(Add CLI output screenshots here)
+
+---
+
+## ⚠️ Limitations
+
+* Not a full antivirus solution
+* Detection depends on VirusTotal data
+* Requires manual analyst validation in some cases
+
+---
+
+## 🧠 Lessons Learned
+
+* Process reputation can significantly speed up triage
+* Spoofed binaries are a realistic threat vector
+* False positive handling is essential in security tooling
+* Combining local inspection with threat intelligence is powerful
+
+---
+
+## ⚠️ Disclaimer
+
+This tool is intended for educational and defensive security purposes only.
+
+---
+
+## 📜 License
+
+MIT License © 2025 André Pinho
